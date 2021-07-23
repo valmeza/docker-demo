@@ -21,9 +21,9 @@ node {
 
     stage('docker build/push') {
         // host of registry, and 'dockerhub' is where are credentials are in jenkins
-        docker.withRegistry('https://index.docker.io/v1/', '7841620d-350d-4ec7-b672-53a65d79885b') {
+        docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
             // then build docker img into a specific repo then the commit id, and build in current path, then push
-            def app = docker.build("valmeza/docker-example:${commit_id}", ".").push();
+            def app = docker.build("valmeza/docker-example:${commit_id}", '.').push();
         }
     }
 }
