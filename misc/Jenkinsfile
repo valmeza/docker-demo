@@ -1,29 +1,19 @@
 node {
-
-    //  create a variable
-    def commit_id
-
-    stage('Preparation') {
-        // checkout and do git clone of this docker-demo in jenkins
-        checkout scm
-        sh "git rev-parse --short HEAD > .git/commit-id" // 1. get the commit id > 2. put it in a file .git/commit-id in this case
-        commit_id = readFile('.git/commit-id').trim() // store the id in the def commit_id and read the file from the temp .git/commit-id file
-    }
-    
-    stage('test') {
-        nodejs(nodeJSInstallationName: 'nodejs') { 
-            // to make sure we can run npm, we wrap it inside here and uuse the nodejs tool we installed in jenkins 
-            // 'nodejs' is the name of this specific node installation we made in jenkins
-            sh 'npm install --only=dev'
-            sh 'npm test'
-        }
-    }
-
-    stage('docker build/push') {
-        // host of registry, and 'dockerhub' is where are credentials are in jenkins
-        docker.withRegistry('https://index.docker.io/', 'dockerhub') {
-            // then build docker img into a specific repo then the commit id, and build in current path, then push
-            def app = docker.build("valmeza/docker-example:${commit_id}", '.').push();
-        }
-    }
+   def commit_id
+   stage('Preparation') {
+     checkout scm
+     sh "git rev-parse --short HEAD > .git/commit-id"                        
+     commit_id = readFile('.git/commit-id').trim()
+   }
+   stage('test') {
+     nodejs(nodeJSInstallationName: 'nodejs') {
+       sh 'npm install --only=dev'
+       sh 'npm test'
+     }
+   }
+   stage('docker build/push') {
+     docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
+       def app = docker.build("valmeza/docker-demo:${commit_id}", '.').push()
+     }
+   }
 }
