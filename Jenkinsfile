@@ -26,7 +26,7 @@ node {
 
         // send email
         if(to != null && !to.isEmpty()) {
-            emailText (
+            emailext (
                 body: content, 
                 mimeType: 'text/html',
                 replyTo: '$DEFAULT_REPLYTO', 
