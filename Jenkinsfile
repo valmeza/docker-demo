@@ -2,9 +2,9 @@ node {
 
     // config
     def to = emailextrecipients([
-        [$class: 'CulpritsRecipientProvicer'],
-        [$class: 'DevelopersRecipientProvicer'],
-        [$class: 'RequesterRecipientProvicer'],
+        [$class: 'CulpritsRecipientProvider'],
+        [$class: 'DevelopersRecipientProvider'],
+        [$class: 'RequesterRecipientProvider'],
     ])
 
     // job
