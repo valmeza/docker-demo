@@ -8,8 +8,8 @@ node {
     
     stage 'Artifactory configuration'
         rtGradle.tool = 'gradle' // Tool name from jenkins configuration
-        rtGradle.deployer repo: 'gradle-dev-local', server: server
-        rtGradle.resolver repo: 'gradle-dev', server: server
+        rtGradle.deployer repo: 'jenkins-gradle-dev-local', server: server
+        rtGradle.resolver repo: 'jenkins-gradle-dev', server: server
 
         stage('Config Build Info') {
             buildInfo.env.capture = true
